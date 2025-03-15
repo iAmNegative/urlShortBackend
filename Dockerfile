@@ -7,9 +7,10 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /target/UrlShortener-0.0.1-SNAPSHOT.jar UrlShortener.jar
+COPY src/main/resources/root.crt /app/root.crt
 EXPOSE 8066
-ENTRYPOINT ["java","-jar","UrlShortener.jar"]
 
+CMD ["java", "-Djavax.net.ssl.trustStore=/app/root.crt", "-jar", "UrlShortener.jar"]
 
 
 
