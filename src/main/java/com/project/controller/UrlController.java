@@ -22,7 +22,7 @@ public class UrlController {
 	
 	// String base  = "http://localhost:8066/negativeUrlShortner/";
 
-    String base  = "https://urlshort-teuc.onrender.com";
+    String base  = "https://urlshort-teuc.onrender.com/";
 	
 	@Autowired
     private  UrlService urlService;
