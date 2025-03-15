@@ -20,7 +20,9 @@ import com.project.Service.UrlService;
 @RestController
 public class UrlController {
 	
-	String base  = "http://localhost:8066/negativeUrlShortner/";
+	// String base  = "http://localhost:8066/negativeUrlShortner/";
+
+    String base  = "https://urlshort-teuc.onrender.com";
 	
 	@Autowired
     private  UrlService urlService;
@@ -32,7 +34,7 @@ public class UrlController {
     }
 
 
-    @GetMapping("/negativeUrlShortner/{shortUrl}")
+    @GetMapping("/{shortUrl}")
     public ResponseEntity<Object> redirectToOriginalUrl(@PathVariable String shortUrl) {
         Optional<String> originalUrl = urlService.getOriginalUrl(shortUrl);
         return (ResponseEntity<Object>) originalUrl.map(url -> {
