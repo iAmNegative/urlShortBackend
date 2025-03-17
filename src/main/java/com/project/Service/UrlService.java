@@ -27,8 +27,16 @@ public class UrlService {
 	    // Trim quotes if present
 	    originalUrl = originalUrl.replaceAll("^\"|\"$", "");  // Removes surrounding quotes
 	    
-	    String shortUrl = generateShortUrl(originalUrl);
 	    UrlMap url = new UrlMap();
+	   
+	    UrlMap urlcheck= urlRepository.findByOriginalUrl(originalUrl);
+	   
+	    if(urlcheck!=null && urlcheck.getId()!=null) {
+	    	return urlcheck.getShortUrl();
+	    }
+	    
+	    String shortUrl = generateShortUrl(originalUrl);
+
 	    url.setOriginalUrl(originalUrl);  // Save clean URL
 	    url.setShortUrl(shortUrl);
 	    url.setCreatedAt(LocalDateTime.now());
@@ -59,6 +67,12 @@ public class UrlService {
             hexString.append(String.format("%02x", b));
         }
         return hexString.toString();
+    }
+    
+   
+
+    public void  deleteExpiredUrls() {
+         urlRepository.deleteAll();
     }
 }
 

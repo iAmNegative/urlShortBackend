@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import com.project.Service.UrlService;
 @RestController
 public class UrlController {
 	
-	// String base  = "http://localhost:8066/negativeUrlShortner/";
+//	 String base  = "http://localhost:8066/";
 
     String base  = "https://urlshort-teuc.onrender.com/";
 	
@@ -46,6 +47,12 @@ public class UrlController {
                 return ResponseEntity.badRequest().body("Invalid URL format: " + url);
             }
         }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    @Scheduled(cron = "0 0 0 * * *") // Runs at 12 AM every day
+    public void clearExpiredUrls() {
+        urlService.deleteExpiredUrls();
+        System.out.println(" expired URLs deleted successfully.");
     }
 
 
